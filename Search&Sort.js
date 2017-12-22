@@ -53,6 +53,18 @@ const bubbleSort = (alist) => {
         console.log('遍历一次之后', alist)
     }
 }
+//
+const bubbleSortTwo = (alist) => {
+    const listLength = alist.length
+    for (var i = 0; i < listLength; i++) {
+        for (var j = 0; j < listLength - 1; j++) {
+            // / j < listLength - 1 - i，改进后，减少了比较次数
+            if (alist[j] > alist[j + 1]) {
+                [alist[j], alist[j + 1]] = [alist[j + 1], alist[j]]
+            }
+        }
+    }
+}
 // 选择排序
 // 也是一遍又一遍地遍历，每遍历一次就把最大、第二大等等选出来
 // 相比于冒泡排序，选择排序每遍历一次只交换一次
@@ -68,6 +80,22 @@ const selectionSort = (alist) => {
         }
         [alist[i], alist[positionOfMax]] = [alist[positionOfMax], alist[i]]
         console.log('遍历一次之后', alist)
+    }
+}
+//
+const selectionSortTwo = (alist) => {
+    const alistLength = alist.length
+    let indexMin
+    for (let i = 0; i < alistLength - 1; i++) {
+        indexMin = i
+        for (let j = i; j < alistLength; j++) {
+            if (alist[indexMin] > alist[j]) {
+                indexMin = j
+            }
+        }
+        if (i !== indexMin) {
+            [alist[i], alist[indexMin]] = [alist[indexMin], alist[i]]
+        }
     }
 }
 // 插入排序
@@ -146,6 +174,35 @@ const mergeSort = (alist) => {
         }
     }
     console.log('merging', alist)
+}
+//
+const mergeSortTwo = (alist) => {
+    alist = mergeSortRec(alist)
+}
+const mergeSortRec = (alist) => {
+    const length = alist.length
+    if (length === 1) {
+        return alist
+    }
+    let mid = Math.floor(length / 2), left = alist.slice(0, mid), right = alist.slice(mid, length)
+    return merge(mergeSortRec(left), mergeSortRec(right))
+}
+const merge = (left, right) => {
+    var result = [], indexLeft = 0, indexRight = 0
+    while (indexLeft < left.length && indexRight < right.length) {
+        if (left[indexLeft] < right[indexRight]) {
+            result.push(left[indexLeft++])
+        } else {
+            result.push(right[indexRight++])
+        }
+    }
+    while (indexLeft < left.length) {
+        result.push(left[indexLeft++])
+    }
+    while (indexRight < right.length) {
+        result.push(right[indexRight++])
+    }
+    return result
 }
 // 快速排序
 // 首先选出一个 pivot（通常是第一个），协助拆分待排序列的
