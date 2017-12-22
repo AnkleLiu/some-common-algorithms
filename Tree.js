@@ -172,7 +172,77 @@ function BinarySearchTree() {
 function printNode (value) {
     console.log(value)
 }
-
+// 普通的二叉树
+const BinaryTree = class {
+    constructor(rootObj) {
+        this.key = rootObj
+        this.leftChild = null
+        this.rightChild = null
+    }
+    insertLeft(newNode) {
+        if (this.leftChild === null) {
+            this.leftChild = new BinaryTree(newNode)
+        } else {
+            const t = new BinaryTree(newNode)
+            t.leftChild = this.leftChild
+            this.leftChild = t
+        }
+    }
+    insertRight(newNode) {
+        if (this.rightChild === null) {
+            this.rightChild = new BinaryTree(newNode)
+        } else {
+            const t = new BinaryTree(newNode)
+            t.rightChild = this.rightChild
+            this.rightChild = t
+        }
+    }
+    getRightChild() {
+        return this.rightChild
+    }
+    getLeftChild() {
+        return this.leftChild
+    }
+    setRootVal(obj) {
+        this.key = obj
+    }
+    getRootVal() {
+        return this.key
+    }
+    preorder() {
+        console.log(this.key)
+        if (this.leftChild) {
+            this.leftChild.preorder()
+        }
+        if (this.rightChild) {
+            this.rightChild.preorder()
+        }
+    }
+}
+// 先序遍历
+const preorder = (tree) => {
+    if (tree) {
+        console.log(tree.getRootVal())
+        preorder(tree.getLeftChild())
+        preorder(tree.getRightChild())
+    }
+}
+// 后序遍历
+const postorder = (tree) => {
+    if (tree) {
+        postorder(tree.getLeftChild())
+        postorder(tree.getRightChild())
+        console.log(tree.getRootVal())
+    }
+}
+// 中序遍历
+const inorder = (tree) => {
+    if (tree) {
+        inorder(tree.getLeftChild())
+        console.log(tree.getRootVal())
+        inorder(tree.getRightChild())
+    }
+}
 const __main = () => {
     const tree = new BinarySearchTree()
     tree.insert(11)
@@ -203,6 +273,18 @@ const __main = () => {
     console.log('搜索')
     console.log(tree.search(10))
     console.log(tree.search(15))
+    //
+    const r = new BinaryTree('a')
+    console.log(r.getRootVal())
+    console.log(r.getLeftChild())
+    r.insertLeft('b')
+    console.log(r.getLeftChild())
+    console.log(r.getLeftChild().getRootVal())
+    r.insertRight('c')
+    console.log(r.getRightChild())
+    console.log(r.getRightChild().getRootVal())
+    r.getRightChild().setRootVal('hello')
+    console.log(r.getRightChild().getRootVal())
 }
 
 __main()
